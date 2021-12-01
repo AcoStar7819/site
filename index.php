@@ -3,6 +3,7 @@
         <link rel="stylesheet" href="style.css">
         <title>Dev</title>
         <script>
+            // Включение/Выключение кнопки отправки
             function UpdateSubmitButton() {
                 let name = document.getElementById("name");
                 let age = document.getElementById("age");
@@ -28,7 +29,6 @@
                     <label for="age">Возраст</label>
                     <input type="number" id="age" name="age" min="10" max="100" onChange="UpdateSubmitButton();">
                     <input type="submit" id="submit" value="Отправить на сервер" disabled>
-                    <!-- Включение/Выключение кнопки отправки -->
                 </form>
             </div>
             <div class="panel">
