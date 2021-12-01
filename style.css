@@ -32,9 +32,13 @@ body {
     margin: auto;
     margin-top: 15px;
 }
-.panel input[type="submit"]:hover {
+.panel input[type="submit"]:disabled {
+    cursor: default;
+}
+.panel input[type="submit"]:not([disabled]):hover {
     background: white;
 }
+
 form input[type="text"], form input[type="number"] {
     padding: 4px 6px;
     width: 100%;
