@@ -24,9 +24,14 @@
                         {
                             $name = htmlspecialchars($_GET["name"]);
                             $age = htmlspecialchars($_GET["age"]);
-
-                            echo "<strong>" . $name . "</strong><br>Длина имени: " . mb_strlen($name, 'UTF-8') . "<br>";
-                            echo "Возраст: " . $age;
+                            if ($name != "" && $age != "")
+                            {
+                                if (is_numeric($age) && ($age >= 10 && $age <= 100))
+                                {
+                                    echo "<strong>" . $name . "</strong><br>Длина имени: " . mb_strlen($name, 'UTF-8') . "<br>";
+                                    echo "Возраст: " . $age;
+                                }
+                            }
                         }
                     ?>
                 </p>
