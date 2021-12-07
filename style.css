@@ -39,7 +39,7 @@ body {
     background: white;
 }
 
-form input[type="text"], form input[type="number"] {
+form input[type="text"], form input[type="number"], form input[type="date"] {
     padding: 4px 6px;
     width: 100%;
 }

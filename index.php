@@ -13,6 +13,8 @@
                     <input type="text" id="name" name="name" required>
                     <label for="age">Возраст</label>
                     <input type="number" id="age" name="age" min="10" max="100" required>
+                    <label for="date">Дата рождения</label>
+                    <input type="date" id="date" name="date" required>
                     <input type="submit" id="submit" value="Отправить на сервер" disabled>
                 </form>
             </div>
@@ -20,16 +22,39 @@
                 <h1>Ответ сервера</h1>
                 <p class="response">
                     <?php
-                        if (isset($_GET["name"]) && isset($_GET["age"]))
+                        $date_m = [
+                            'января',
+                            'февраля',
+                            'марта',
+                            'апреля',
+                            'мая',
+                            'июня',
+                            'июля',
+                            'августа',
+                            'сентября',
+                            'октября',
+                            'ноября',
+                            'декабря',
+                        ];
+
+                        function GetFormattedDate($timestamp)
+                        {
+                            global $date_m;
+                            return date('j ' . $date_m[date('m', $timestamp) - 1] . ' Y года', $timestamp);
+                        }
+
+                        if (isset($_GET["name"]) && isset($_GET["age"]) && isset($_GET["date"]))
                         {
                             $name = htmlspecialchars($_GET["name"]);
                             $age = htmlspecialchars($_GET["age"]);
-                            if ($name != "" && $age != "")
+                            $date = strtotime(htmlspecialchars($_GET["date"]));
+                            if ($name != "" && $age != "" && $date != "")
                             {
                                 if (is_numeric($age) && ($age >= 10 && $age <= 100))
                                 {
                                     echo "<strong>" . $name . "</strong><br>Длина имени: " . mb_strlen($name, 'UTF-8') . "<br>";
-                                    echo "Возраст: " . $age;
+                                    echo "Возраст: " . $age . "<br>";
+                                    echo "Дата: " . GetFormattedDate($date);
                                 }
                             }
                         }
