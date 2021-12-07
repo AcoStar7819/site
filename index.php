@@ -20,21 +20,14 @@
                 <h1>Ответ сервера</h1>
                 <p class="response">
                     <?php
-                        if (isset($_GET["name"]))
+                        if (isset($_GET["name"]) && isset($_GET["age"]))
+                        {
                             $name = htmlspecialchars($_GET["name"]);
-                        if (isset($_GET["age"]))
                             $age = htmlspecialchars($_GET["age"]);
 
-                        //  Если есть имя - отображаем его
-                        if ($name && $name != "")
                             echo "<strong>" . $name . "</strong><br>Длина имени: " . mb_strlen($name, 'UTF-8') . "<br>";
-                        else
-                            echo "Имя не указано.<br>";
-                        //  Если есть возраст - отображаем его
-                        if ($age && $age != "")
                             echo "Возраст: " . $age;
-                        else
-                            echo "Возраст не указан.";
+                        }
                     ?>
                 </p>
             </div>
