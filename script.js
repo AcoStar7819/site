@@ -1,6 +1,8 @@
-
+let username;
+let age;
+let submit;
 function UpdateSubmitButton() {
-    if (name.value == "" || age.value == "")
+    if (username.value == "" || age.value == "")
     {
         submit.disabled = true;
     }
@@ -11,9 +13,10 @@ function UpdateSubmitButton() {
 }
 
 window.onload = function() {
-    var name = document.getElementById("name");
-    var age = document.getElementById("age");
-    var submit = document.getElementById("submit");
-    name.addEventListener("change", UpdateSubmitButton);
+    username = document.getElementById("name");
+    age = document.getElementById("age");
+    submit = document.getElementById("submit");
+    
+    username.addEventListener("change", UpdateSubmitButton);
     age.addEventListener("change", UpdateSubmitButton);
 }
