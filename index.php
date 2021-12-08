@@ -8,14 +8,14 @@
         <div class="line">
             <div class="panel">
                 <h1>Отправка данных</h1>
-                <form action="index.php" method="get" target="_self" autocomplete="off">
+                <form action="index.php" method="get" target="_self" autocomplete="off" id="userInfoForm">
                     <label for="name">Имя</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" name="name" required>
                     <label for="age">Возраст</label>
-                    <input type="number" id="age" name="age" min="10" max="100" required>
+                    <input type="number" name="age" min="10" max="100" required>
                     <label for="date">Дата рождения</label>
-                    <input type="date" id="date" name="date" required>
-                    <input type="submit" id="submit" value="Отправить на сервер" disabled>
+                    <input type="date" name="date" required>
+                    <input type="submit" value="Отправить на сервер" disabled>
                 </form>
             </div>
             <div class="panel">
