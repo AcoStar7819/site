@@ -21,26 +21,7 @@
                 <h1>Ответ сервера</h1>
                 <p class="response">
                     <?php
-                        $date_m = [
-                            'января',
-                            'февраля',
-                            'марта',
-                            'апреля',
-                            'мая',
-                            'июня',
-                            'июля',
-                            'августа',
-                            'сентября',
-                            'октября',
-                            'ноября',
-                            'декабря',
-                        ];
-
-                        function GetFormattedDate($timestamp)
-                        {
-                            global $date_m;
-                            return date('j ' . $date_m[date('m', $timestamp) - 1] . ' Y года', $timestamp);
-                        }
+                        include ('Date.php');
 
                         if (isset($_GET["name"]) && isset($_GET["age"]) && isset($_GET["date"]))
                         {
@@ -53,7 +34,7 @@
                                 {
                                     echo "<strong>" . $name . "</strong><br>Длина имени: " . mb_strlen($name, 'UTF-8') . "<br>";
                                     echo "Возраст: " . $age . "<br>";
-                                    echo "Дата: " . GetFormattedDate($date);
+                                    echo "Дата: " . Date::GetFormattedDate($date);
                                 }
                             }
                         }
