@@ -1,5 +1,6 @@
-let checkList = [];
-let sumbitButton;
+let checkList = document.querySelectorAll("#userInfoForm input:not(input[type=submit])");
+let sumbitButton = document.querySelector("#userInfoForm input[type=submit]");
+
 function UpdateSubmitButton() {
     for (let i = 0; i < checkList.length; i++)
     {
@@ -12,18 +13,7 @@ function UpdateSubmitButton() {
     sumbitButton.disabled = false;
 }
 
-window.onload = function() {
-    let userInfo = document.getElementById("userInfoForm").children;
-    for (let i = 0; i < userInfo.length; i++)
-    {
-        if (userInfo[i].type == "submit")
-        {
-            sumbitButton = userInfo[i];
-        }
-        else if (userInfo[i].nodeName == "INPUT")
-        {
-            userInfo[i].addEventListener("change", UpdateSubmitButton);
-            checkList.push(userInfo[i]);
-        }
-    }
+for (let i = 0; i < checkList.length; i++)
+{
+    checkList[i].addEventListener("change", UpdateSubmitButton);
 }

@@ -2,7 +2,6 @@
     <head>
         <link rel="stylesheet" href="style.css">
         <title>Dev</title>
-		<script src="script.js"></script>
     </head>
     <body>
         <div class="line">
@@ -61,6 +60,7 @@
                     ?>
                 </p>
             </div>
-        </div>  
+        </div>
+        <script src="script.js"></script>
     </body>
 </html>
