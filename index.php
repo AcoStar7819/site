@@ -1,3 +1,7 @@
+<?php
+    include ('Date.php');
+    include('Text.php');
+?>
 <!DOCTYPE html>
     <head>
         <link rel="stylesheet" href="style.css">
@@ -21,8 +25,6 @@
                 <h1>Ответ сервера</h1>
                 <p class="response">
                     <?php
-                        include ('Date.php');
-
                         if (isset($_GET["name"]) && isset($_GET["age"]) && isset($_GET["date"]))
                         {
                             $name = htmlspecialchars($_GET["name"]);
@@ -32,7 +34,10 @@
                             {
                                 if (is_numeric($age) && ($age >= 10 && $age <= 100))
                                 {
-                                    echo "<strong>" . $name . "</strong><br>Длина имени: " . mb_strlen($name, 'UTF-8') . "<br>";
+                                    #   Демонстрация новосозданного класса "Text"
+                                    $name = new Text($name);
+                                    echo "<strong>" . $name->get() . "</strong><br>Длина имени: " . $name->getLength() . "<br>";
+
                                     echo "Возраст: " . $age . "<br>";
                                     echo "Дата: " . Date::GetFormattedDate($date);
                                 }
