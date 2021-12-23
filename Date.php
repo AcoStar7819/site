@@ -17,7 +17,7 @@ class Date
         'декабря',
     ];
 
-    static function GetFormattedDate($timestamp)
+    static function getFormattedDate($timestamp)
     {
         return date('j ' . Date::DATE_M[date('m', $timestamp) - 1] . ' Y года', $timestamp);
     }

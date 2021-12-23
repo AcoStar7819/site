@@ -39,7 +39,7 @@
                                     echo "<strong>" . $name->get() . "</strong><br>Длина имени: " . $name->getLength() . "<br>";
 
                                     echo "Возраст: " . $age . "<br>";
-                                    echo "Дата: " . Date::GetFormattedDate($date);
+                                    echo "Дата: " . Date::getFormattedDate($date);
                                 }
                             }
                         }
