@@ -59,3 +59,35 @@ form input[type="text"], form input[type="number"], form input[type="date"] {
     min-width: 200px;
     line-height: 20px;
 }
+
+.news {
+    width: 350px;
+    padding: 10px 0;
+    border-bottom: 1px solid gray;
+}
+.news h2 {
+    margin: 0;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.news em {
+    color: gray;
+    display: block;
+    text-align: right;
+    margin-top: 10px;
+}
+
+.navigation {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    background: #fbfbfd;
+    border-left: 4px solid gray;
+    box-shadow: 0 1px 1px black;
+}
+.navigation a {
+    display: block;
+    text-decoration: none;
+    color: black!important;
+}

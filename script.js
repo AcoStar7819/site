@@ -1,5 +1,5 @@
-let checkList = document.querySelectorAll("#userInfoForm input:not(input[type=submit])");
-let sumbitButton = document.querySelector("#userInfoForm input[type=submit]");
+let checkList = document.querySelectorAll("#defaultForm input:not(input[type=submit])");
+let sumbitButton = document.querySelector("#defaultForm input[type=submit]");
 
 function UpdateSubmitButton() {
     for (let i = 0; i < checkList.length; i++)

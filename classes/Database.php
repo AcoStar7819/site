@@ -1,0 +1,47 @@
+<?php
+
+class Database
+{
+    private const HOST = "localhost";
+    private $connection;
+
+    public function __construct(string $username = "root", string $password = "root")
+    {
+        $this->$connection = new mysqli(Database::HOST, $username, $password);
+        if ($connection->connect_error) {
+            die("Connection failed: " . $connection->connect_error);
+        }
+        $this->$connection->query("CREATE DATABASE IF NOT EXISTS `site`;");
+        $this->$connection->close();
+
+        $this->$connection = new mysqli(Database::HOST, $username, $password, $database);
+        $this->$connection->query("
+            CREATE TABLE IF NOT EXISTS `site`.`news` (
+                `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `title` TINYTEXT NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+                `text` TEXT NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+                `date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (`id`) USING BTREE
+            )
+            COLLATE='utf8_general_ci'
+            ENGINE=InnoDB
+            ;
+        ");
+    }
+
+    public function addNews(string $title, string $text)
+    {
+        $this->$connection->query("INSERT INTO `site`.`news` (`title`, `text`) VALUES ('{$title}', '{$text}');", MYSQLI_ASYNC);
+    }
+
+    public function getNews()
+    {
+        $result = $this->$connection->query("SELECT title, text, UNIX_TIMESTAMP(date) as date FROM `site`.`news` ORDER BY date DESC;");
+        if ($result->num_rows > 0)
+        {
+            return $result;
+        } else {
+            return NULL;
+        }
+    }
+}

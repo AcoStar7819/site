@@ -1,6 +1,6 @@
 <?php
-    include ('Date.php');
-    include('Text.php');
+    include('./classes/Date.php');
+    include('./classes/Text.php');
 ?>
 <!DOCTYPE html>
     <head>
@@ -8,10 +8,14 @@
         <title>Dev</title>
     </head>
     <body>
+        <div class="navigation">
+            <a href="index.php">Основная страница</a>
+            <a href="news.php">Новости</a>
+        </div>
         <div class="line">
             <div class="panel">
                 <h1>Отправка данных</h1>
-                <form action="index.php" method="get" target="_self" autocomplete="off" id="userInfoForm">
+                <form action="index.php" method="get" target="_self" autocomplete="off" id="defaultForm">
                     <label for="name">Имя</label>
                     <input type="text" name="name" required>
                     <label for="age">Возраст</label>

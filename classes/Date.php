@@ -17,8 +17,14 @@ class Date
         'декабря',
     ];
 
-    static function getFormattedDate($timestamp)
+    static function getFormattedDate($timestamp, bool $time = false)
     {
-        return date('j ' . Date::DATE_M[date('m', $timestamp) - 1] . ' Y года', $timestamp);
+        if ($time)
+        {
+            return date('j ' . Date::DATE_M[date('m', $timestamp) - 1] . ' Y года, в G:i', $timestamp);
+        } else
+        {
+            return date('j ' . Date::DATE_M[date('m', $timestamp) - 1] . ' Y года', $timestamp);
+        }
     }
 }
