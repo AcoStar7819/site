@@ -33,16 +33,15 @@ class NewsDatabase
 
     public function addNews(string $title, string $text)
     {
+        $title = $this->$connection->real_escape_string($title);
+        $text = $this->$connection->real_escape_string($text);
         $this->$connection->query("INSERT INTO `site`.`news` (`title`, `text`) VALUES ('{$title}', '{$text}');", MYSQLI_ASYNC);
     }
 
     public function getNews(int $page = 1)
     {
         $offset = ($page - 1) * 6;
-        $result = $this->$connection->query("
-            SELECT * FROM (
-                SELECT title, text, UNIX_TIMESTAMP(date) as date FROM `site`.`news` LIMIT 6 OFFSET {$offset}
-            ) AS `page` ORDER BY `page`.`date` DESC;");
+        $result = $this->$connection->query("SELECT title, text, UNIX_TIMESTAMP(date) as date FROM `site`.`news` ORDER BY `date` DESC LIMIT 6 OFFSET {$offset};");
         if ($result->num_rows > 0)
         {
             return $result;
