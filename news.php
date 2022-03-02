@@ -1,7 +1,13 @@
 <?php
     include('./classes/Date.php');
     include('./classes/Database.php');
-    $db = new Database("root", "");
+    $db = new NewsDatabase("root", "");
+    $pageId = 1;
+    if(isset($_GET["pageId"])) {
+        $pageId = (int) $_GET["pageId"];
+        if ($pageId < 1)
+            $pageId = 1;
+    }
 ?>
 <!DOCTYPE html>
     <head>
@@ -37,8 +43,9 @@
             </div>
             <div class="panel">
                 <h1>Новости</h1>
+                    <!--    Загрузка новостей   -->
                     <?php
-                        $news = $db->getNews();
+                        $news = $db->getNews($pageId);
                         if ($news) {
                             while($row = $news->fetch_assoc()) {
                                 echo "<div class=\"news\"><h2>" . $row["title"] . "</h2>" .
@@ -49,6 +56,12 @@
                             echo "<strong>Новостей нет.</strong>";
                         }
                     ?>
+                    <!--    Переключение страниц    -->
+                    <div class="pagesNav">
+                        <a href="news.php?pageId=<?=$pageId - 1?>"> Назад</a>
+                        <span><?=$pageId?></span>
+                        <a href="news.php?pageId=<?=$pageId + 1?>">Вперёд</a>
+                    </div>
             </div>
         </div>
         <script src="script.js"></script>

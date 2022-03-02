@@ -1,3 +1,7 @@
+/*
+    Общий код для страниц
+*/
+
 html, body {
     height: 100%;
     margin: 0;
@@ -55,6 +59,20 @@ form input[type="text"], form input[type="number"], form input[type="date"] {
     border-style: double;
 }
 
+/*
+    Основная страница
+ */
+
+.navigation a {
+    display: block;
+    text-decoration: none;
+    color: black!important;
+}
+
+/*
+    Новости
+*/
+
 .response {
     min-width: 200px;
     line-height: 20px;
@@ -86,8 +104,33 @@ form input[type="text"], form input[type="number"], form input[type="date"] {
     border-left: 4px solid gray;
     box-shadow: 0 1px 1px black;
 }
-.navigation a {
+
+/* Навигация по страницам новостей */
+
+.pagesNav {
+    display: flex;
+    width: 350px;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+    padding-bottom: 0;
+}
+
+.pagesNav a {
     display: block;
+    padding: 5px 20px;
+    border-bottom: 1px solid;
+    cursor: pointer;
+    transition: cubic-bezier(0.4, 0, 1, 1) 0.1s;
+    background: rgb(239, 239, 239);
+    color: black;
     text-decoration: none;
-    color: black!important;
+}
+.pagesNav a:hover {
+    background: white;
+}
+
+.pagesNav span {
+    font-weight: bold;
+    font-size: 20px;
 }
