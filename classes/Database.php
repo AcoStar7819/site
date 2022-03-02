@@ -1,20 +1,22 @@
 <?php
+$cfg = require "config.php";
 
 class NewsDatabase
 {
-    private const HOST = "localhost";
     private $connection;
 
-    public function __construct(string $username = "root", string $password = "root")
+    public function __construct()
     {
-        $this->$connection = new mysqli(NewsDatabase::HOST, $username, $password);
+        global $cfg;
+
+        $this->$connection = new mysqli($cfg["DB_HOST"], $cfg["DB_USERNAME"], $cfg["DB_PASSWORD"]);
         if ($connection->connect_error) {
             die("Connection failed: " . $connection->connect_error);
         }
         $this->$connection->query("CREATE DATABASE IF NOT EXISTS `site`;");
         $this->$connection->close();
 
-        $this->$connection = new mysqli(NewsDatabase::HOST, $username, $password, $database);
+        $this->$connection = new mysqli($cfg["DB_HOST"], $cfg["DB_USERNAME"], $cfg["DB_PASSWORD"], "site");
         $this->$connection->query("
             CREATE TABLE IF NOT EXISTS `site`.`news` (
                 `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,

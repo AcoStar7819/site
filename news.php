@@ -1,7 +1,7 @@
 <?php
     include('./classes/Date.php');
     include('./classes/Database.php');
-    $db = new NewsDatabase("root", "");
+    $db = new NewsDatabase();
     $pageId = 1;
     if(isset($_GET["pageId"])) {
         $pageId = (int) $_GET["pageId"];
