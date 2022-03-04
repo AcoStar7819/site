@@ -23,17 +23,17 @@
     </head>
     <body>
         <div class="navigation">
-            <a href="index.php">Основная страница</a>
-            <a href="news.php">Новости</a>
+            <a href="/">Основная страница</a>
+            <a href="/news">Новости</a>
             <br>
-            <a href="news.php?pageId=<?=$pageId?>&localeId=2">Русский</a>
-            <a href="news.php?pageId=<?=$pageId?>&localeId=1">English</a>
+            <a href="/news?pageId=<?=$pageId?>&localeId=2">Русский</a>
+            <a href="/news?pageId=<?=$pageId?>&localeId=1">English</a>
         </div>
         <div class="line">
             <div class="panel" style="margin-bottom: auto;">
                 <h1>Создать новость</h1>
                 <span>Язык: <?= LocalesStore::getName($localeId) ?></span>
-                <form action="news.php" method="get" target="_self" autocomplete="off" id="defaultForm">
+                <form action="/news" method="get" target="_self" autocomplete="off" id="defaultForm">
                     <label for="title">Заголовок</label>
                     <input type="text" name="title" required>
                     <label for="text">Текст</label>
@@ -69,9 +69,9 @@
                     ?>
                     <!--    Переключение страниц    -->
                     <div class="pagesNav">
-                        <a href="news.php?pageId=<?=$pageId - 1?>&localeId=<?=$localeId?>">Назад</a>
+                        <a href="/news?pageId=<?=$pageId - 1?>&localeId=<?=$localeId?>">Назад</a>
                         <span><?=$pageId?></span>
-                        <a href="news.php?pageId=<?=$pageId + 1?>&localeId=<?=$localeId?>">Вперёд</a>
+                        <a href="/news?pageId=<?=$pageId + 1?>&localeId=<?=$localeId?>">Вперёд</a>
                     </div>
             </div>
         </div>

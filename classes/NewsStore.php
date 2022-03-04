@@ -103,7 +103,14 @@ class NewsStore
                 );
                 if ($newsTextResult) {
                     $newsTextResult = $newsTextResult->fetch_assoc();
-                    $news[] = new NewsData($row["id"], $newsTextResult["title"], $newsTextResult["text"], $row["date"]);
+                    if ($newsTextResult["title"]) {
+                        $news[] = new NewsData(
+                            $row["id"],
+                            $newsTextResult["title"],
+                            $newsTextResult["text"],
+                            $row["date"]
+                        );
+                    }
                 }
             }
             return $news;
