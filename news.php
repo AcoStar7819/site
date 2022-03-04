@@ -33,16 +33,16 @@
             <div class="panel" style="margin-bottom: auto;">
                 <h1>Создать новость</h1>
                 <span>Язык: <?= LocalesStore::getName($localeId) ?></span>
-                <form action="/news" method="get" target="_self" autocomplete="off" id="defaultForm">
+                <form action="/news?localeId=2" method="post" target="_self" autocomplete="off" id="defaultForm">
                     <label for="title">Заголовок</label>
                     <input type="text" name="title" required>
                     <label for="text">Текст</label>
                     <input type="text" name="text" required>
                     <input type="submit" value="Отправить на сервер" disabled>
                     <?php
-                        if(isset($_GET["title"]) && isset($_GET["text"])) {
-                            $title = htmlspecialchars($_GET["title"]);
-                            $text = htmlspecialchars($_GET["text"]);
+                        if(isset($_POST["title"]) && isset($_POST["text"])) {
+                            $title = htmlspecialchars($_POST["title"]);
+                            $text = htmlspecialchars($_POST["text"]);
                             if($title != "" && $text != "")
                             {
                                 $db->addNews($title, $text, $localeId);
