@@ -1,12 +1,19 @@
 <?php
-    include('./classes/Date.php');
-    include('./classes/Database.php');
-    $db = new NewsDatabase();
+    include('./classes/NewsStore.php');
+
+    $db = new NewsStore();
     $pageId = 1;
     if(isset($_GET["pageId"])) {
         $pageId = (int) $_GET["pageId"];
         if ($pageId < 1)
             $pageId = 1;
+    }
+
+    $localeId = 1;
+    if(isset($_GET["localeId"])) {
+        $localeId = (int) $_GET["localeId"];
+        if ($localeId < 1)
+            $localeId = 1;
     }
 ?>
 <!DOCTYPE html>
@@ -18,10 +25,14 @@
         <div class="navigation">
             <a href="index.php">Основная страница</a>
             <a href="news.php">Новости</a>
+            <br>
+            <a href="news.php?pageId=<?=$pageId?>&localeId=2">Русский</a>
+            <a href="news.php?pageId=<?=$pageId?>&localeId=1">English</a>
         </div>
         <div class="line">
             <div class="panel" style="margin-bottom: auto;">
                 <h1>Создать новость</h1>
+                <span>Язык: <?= LocalesStore::getName($localeId) ?></span>
                 <form action="news.php" method="get" target="_self" autocomplete="off" id="defaultForm">
                     <label for="title">Заголовок</label>
                     <input type="text" name="title" required>
@@ -34,7 +45,7 @@
                             $text = htmlspecialchars($_GET["text"]);
                             if($title != "" && $text != "")
                             {
-                                $db->addNews($title, $text);
+                                $db->addNews($title, $text, $localeId);
                                 header('Refresh:0; url=news.php');
                             }
                         }
@@ -45,12 +56,12 @@
                 <h1>Новости</h1>
                     <!--    Загрузка новостей   -->
                     <?php
-                        $news = $db->getNews($pageId);
+                        $news = $db->getNews($pageId, $localeId);
                         if ($news) {
-                            while($row = $news->fetch_assoc()) {
-                                echo "<div class=\"news\"><h2>" . $row["title"] . "</h2>" .
-                                      $row["text"] .
-                                      "<em>Опубликовано " . Date::getFormattedDate($row["date"], true) . "</em></div>";
+                            foreach ($news as $row) {
+                                echo "<div class=\"news\"><h2>" . $row->getTitle() . "</h2>" .
+                                    $row->getText() .
+                                    "<em>Опубликовано " . $row->getDate() . "</em></div>";
                             }
                         } else {
                             echo "<strong>Новостей нет.</strong>";
@@ -58,9 +69,9 @@
                     ?>
                     <!--    Переключение страниц    -->
                     <div class="pagesNav">
-                        <a href="news.php?pageId=<?=$pageId - 1?>"> Назад</a>
+                        <a href="news.php?pageId=<?=$pageId - 1?>&localeId=<?=$localeId?>">Назад</a>
                         <span><?=$pageId?></span>
-                        <a href="news.php?pageId=<?=$pageId + 1?>">Вперёд</a>
+                        <a href="news.php?pageId=<?=$pageId + 1?>&localeId=<?=$localeId?>">Вперёд</a>
                     </div>
             </div>
         </div>
