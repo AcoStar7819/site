@@ -1,29 +1,39 @@
 <?php
 
-require_once "Collection.php";
+namespace classes;
 
+/**
+ * Наследуемый класс для работы с базой данных
+ */
 abstract class Model
 {
-    public $connection;
-    protected $table;
-    protected $columns;
-    protected $database = "site";
+    public \mysqli $connection;
+    protected string $table;
+    protected array $columns;
+    protected string $database = "site";
 
-    private $where = "";
-    private $operator = "AND";
-    private $order = "";
-    private $limit = "";
-    private $offset = "";
+    private string $where = "";
+    private string $operator = "AND";
+    private string $order = "";
+    private string $limit = "";
+    private string $offset = "";
 
-    private $sql = "";
+    private string $sql = "";
 
     public function __construct()
     {
         $cfg = require "config.php";
-        $this->connection = new mysqli($cfg["DB_HOST"], $cfg["DB_USERNAME"], $cfg["DB_PASSWORD"], $this->database);
+        $this->connection = new \mysqli($cfg["DB_HOST"], $cfg["DB_USERNAME"], $cfg["DB_PASSWORD"], $this->database);
     }
 
-    public function insert(array $attributes = [])
+    /**
+     * Вставка записей в таблицу
+     *
+     * ['column' => $value]
+     * @param array $attributes
+     * @return $this|false
+     */
+    public function insert(array $attributes = []): Model|false
     {
         $columns = "";
         $values = "";
@@ -55,13 +65,18 @@ abstract class Model
         return $this;
     }
 
-    public function select(array $columns = [])
+    /**
+     * Выбор записей из таблицы по ранее заданному условию
+     * @param array $columns
+     * @return $this|false
+     */
+    public function select(array $columns = []): Model|false
     {
         $str = "";
         if (count($columns) > 0) {
             foreach ($columns as $id => $column) {
                 if (!in_array($column, $this->columns)) {
-                    return [];
+                    return false;
                 }
                 $column = $this->connection->real_escape_string($column);
                 $str .= $column;
@@ -80,10 +95,15 @@ abstract class Model
         return $this;
     }
 
-    public function where(string $column, string $value)
+    /**
+     * @param string $column
+     * @param string $value
+     * @return false|$this
+     */
+    public function where(string $column, string $value): Model|false
     {
         if (!in_array($column, $this->columns)) {
-            return null;
+            return false;
         }
 
         $column = $this->connection->real_escape_string($column);
@@ -98,19 +118,34 @@ abstract class Model
         return $this;
     }
 
-    public function and()
+    /**
+     * Добавление AND в SQL запрос
+     * @return $this
+     */
+    public function and(): Model
     {
         $this->operator = "AND";
         return $this;
     }
 
-    public function or()
+    /**
+     * Добавление OR в SQL запрос
+     * @return $this
+     */
+    public function or(): Model
     {
         $this->operator = "OR";
         return $this;
     }
 
-    public function order(string $column, string $type = "DESC")
+    /**
+     * Сортировка записей
+     *
+     * @param string $column
+     * @param string $type
+     * @return $this|false
+     */
+    public function order(string $column, string $type = "DESC"): Model|false
     {
         if (!in_array($column, $this->columns)) {
             return false;
@@ -120,18 +155,33 @@ abstract class Model
         return $this;
     }
 
-    public function limit(int $limit = 1)
+    /**
+     * Ограничение по количеству выбираемых записей
+     * @param int $limit
+     * @return $this
+     */
+    public function limit(int $limit = 1): Model
     {
         $this->limit = " LIMIT " . $limit . " ";
         return $this;
     }
 
-    public function offset(int $offset)
+    /**
+     * Отступ при выборе записей
+     * @param int $offset
+     * @return $this
+     */
+    public function offset(int $offset): Model
     {
         $this->offset = " OFFSET " . $offset . " ";
         return $this;
     }
 
+    /**
+     * Окончательное выполнение сформированного запроса
+     * @param string $sql Чистый SQL для выполнения вместе с сформированным запросом
+     * @return array
+     */
     public function run(string $sql = ""): array
     {
         $result = [];
@@ -140,7 +190,7 @@ abstract class Model
 
         if ($this->sql->num_rows > 0) {
             while ($row = $this->sql->fetch_assoc()) {
-                $collection = new Collection();
+                $collection = new \Collection();
                 foreach ($row as $key => $value) {
                     $collection->$$key = $value;
                 }
@@ -153,7 +203,11 @@ abstract class Model
         return $result;
     }
 
-    private function clear()
+    /**
+     * Возвращение приватных свойств к их изначальным значениям
+     * @return void
+     */
+    private function clear(): void
     {
         $this->where = null;
         $this->operator = "AND";

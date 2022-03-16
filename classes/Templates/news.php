@@ -1,8 +1,5 @@
 <?php
-
-include_once('./classes/NewsStore.php');
-
-$db = new NewsStore();
+$db = new \classes\Controllers\NewsStore();
 $pageId = 1;
 if (isset($_COOKIE["pageId"])) {
     $pageId = (int)$_COOKIE["pageId"];
@@ -23,15 +20,15 @@ if (isset($_POST["newLocaleId"])) {
 ?>
 <!DOCTYPE html>
 <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../style.css">
     <title>News</title>
 </head>
 <body>
 <div class="navigation">
     <a href="/">Основная страница</a>
-    <a href="/news">Новости</a>
+    <a href="../../news">Новости</a>
     <br>
-    <form action="/news" method="post" target="_self">
+    <form action="../../news" method="post" target="_self">
         <input type="hidden" name="newLocaleId" value="" id="curLocale"/>
         <input type="submit" value="Русский" onclick="setLanguage(2)">
         <input type="submit" value="Английский" onclick="setLanguage(1)">
@@ -40,19 +37,8 @@ if (isset($_POST["newLocaleId"])) {
 <div class="line">
     <div class="panel" style="margin-bottom: auto;">
         <h1>Создать новость</h1>
-        <span>Язык: <?= LocalesStore::getName($localeId) ?></span>
-
-
-
-        <script>
-            console.log(<?= $localeId ?>);
-            console.log(<?= LocalesStore::getName($localeId) ?>);
-            console.log("end");
-        </script>
-
-
-
-        <form action="/news" method="post" target="_self" autocomplete="off" id="defaultForm">
+        <span>Язык: <?= \classes\Controllers\LocalesStore::getName($localeId) ?></span>
+        <form action="../../news" method="post" target="_self" autocomplete="off" id="defaultForm">
             <label for="title">Заголовок</label>
             <input type="text" name="title" required>
             <label for="text">Текст</label>
@@ -87,7 +73,7 @@ if (isset($_POST["newLocaleId"])) {
         ?>
         <!--    Переключение страниц    -->
         <div class="pagesNav">
-            <form action="/news" method="post" target="_self" style="
+            <form action="../../index.php" method="post" target="_self" style="
                             display: flex;
                             align-items: center;
                             width: 100%;
@@ -100,7 +86,7 @@ if (isset($_POST["newLocaleId"])) {
         </div>
     </div>
 </div>
-<script src="script.js"></script>
+<script src="../../script.js"></script>
 <script>
     function setPage(newPageId) {
         document.querySelector("#curPage").value = newPageId;

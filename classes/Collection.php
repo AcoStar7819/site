@@ -1,8 +1,11 @@
 <?php
 
+/**
+ * Базовая реализация коллекции для хранения любых данных
+ */
 class Collection
 {
-    private $data = array();
+    private $data = [];
 
     public function __construct(array $data = [])
     {

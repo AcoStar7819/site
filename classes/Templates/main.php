@@ -1,16 +1,12 @@
-<?php
-    include_once('./classes/Date.php');
-    include_once('./classes/Text.php');
-?>
 <!DOCTYPE html>
     <head>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../../style.css">
         <title>Dev</title>
     </head>
     <body>
         <div class="navigation">
             <a href="/">Основная страница</a>
-            <a href="/news">Новости</a>
+            <a href="../../news">Новости</a>
         </div>
         <div class="line">
             <div class="panel">
@@ -39,11 +35,11 @@
                                 if (is_numeric($age) && ($age >= 10 && $age <= 100))
                                 {
                                     #   Демонстрация новосозданного класса "Text"
-                                    $name = new Text($name);
+                                    $name = new \classes\Controllers\Text($name);
                                     echo "<strong>" . $name->get() . "</strong><br>Длина имени: " . $name->getLength() . "<br>";
 
                                     echo "Возраст: " . $age . "<br>";
-                                    echo "Дата: " . Date::getFormattedDate($date);
+                                    echo "Дата: " . \classes\Controllers\Date::getFormattedDate($date);
                                 }
                             }
                         }
@@ -51,6 +47,6 @@
                 </p>
             </div>
         </div>
-        <script src="script.js"></script>
+        <script src="../../script.js"></script>
     </body>
 </html>

@@ -1,55 +1,16 @@
 <?php
 
-include_once('./classes/LocalesStore.php');
-include_once('./classes/Date.php');
-include_once('./classes/Database/NewsDatabase.php');
-include_once('./classes/Database/NewsTextDatabase.php');
-
-class NewsData
-{
-    private $id;
-    private $title;
-    private $text;
-    private $date;
-
-    public function __construct(int $id, string $title, string $text, int $date)
-    {
-        $this->id = $id;
-        $this->title = $title;
-        $this->text = $text;
-        $this->date = Date::getFormattedDate($date, true);
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    public function getText(): string
-    {
-        return $this->text;
-    }
-
-    public function getDate(): string
-    {
-        return $this->date;
-    }
-}
+namespace classes\Controllers;
 
 class NewsStore
 {
-    private $news_db;
-    private $text_db;
+    private \classes\Database\News $news_db;
+    private \classes\Database\NewsText $text_db;
 
     public function __construct()
     {
-        $this->news_db = new NewsDatabase();
-        $this->text_db = new NewsTextDatabase();
+        $this->news_db = new \classes\Database\News;
+        $this->text_db = new \classes\Database\NewsText;
     }
 
     public function addNews(string $title, string $text, int $localeId = 1, int $newsId = 0): bool
@@ -80,6 +41,10 @@ class NewsStore
     }
 
     public function getNews(int $page = 1, int $localeId = 1)
+        //  Надо переписать на JOIN
+        //SELECT news.date, news_text.title, news_text.text
+        //FROM news
+        //INNER JOIN news_text ON news.id = news_text.news_id AND news_text.locale_id = 2 ORDER BY news.date DESC LIMIT 6 OFFSET 0;
     {
         if (!LocalesStore::isLocaleExists($localeId)) {
             return null;
@@ -95,13 +60,6 @@ class NewsStore
                 $text = $this->text_db->select()->run();
                 if (count($text) > 0)
                 {
-                    $text = $text[0];
-                    $news[] = new NewsData(
-                        $row["id"],
-                        $text["title"],
-                        $text["text"],
-                        $row["date"]
-                    );
                 }
             }
             return $news;

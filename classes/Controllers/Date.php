@@ -1,5 +1,10 @@
 <?php
 
+namespace classes\Controllers;
+
+/**
+ * Класс для работы с отформатированной датой
+ */
 class Date
 {
     private const DATE_M = [
@@ -17,7 +22,15 @@ class Date
         'декабря',
     ];
 
-    static function getFormattedDate($timestamp, bool $time = false)
+    /**
+     * Возвращает отформатированную дату
+     * UNIX->Человеческий формат
+     *
+     * @param $timestamp
+     * @param bool $time Учитывать часы и минуты
+     * @return string
+     */
+    static function getFormattedDate($timestamp, bool $time = false) : string
     {
         if ($time)
         {
