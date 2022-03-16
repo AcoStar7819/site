@@ -1,8 +1,9 @@
 <?php
 
-include('./classes/LocalesStore.php');
-include('./classes/Date.php');
-$cfg = require "config.php";
+include_once('./classes/LocalesStore.php');
+include_once('./classes/Date.php');
+include_once('./classes/Database/NewsDatabase.php');
+include_once('./classes/Database/NewsTextDatabase.php');
 
 class NewsData
 {
@@ -42,44 +43,38 @@ class NewsData
 
 class NewsStore
 {
-    private $connection;
+    private $news_db;
+    private $text_db;
 
     public function __construct()
     {
-        global $cfg;
-
-        $this->connection = new mysqli($cfg["DB_HOST"], $cfg["DB_USERNAME"], $cfg["DB_PASSWORD"], "site");
+        $this->news_db = new NewsDatabase();
+        $this->text_db = new NewsTextDatabase();
     }
 
     public function addNews(string $title, string $text, int $localeId = 1, int $newsId = 0): bool
     {
-        $title = $this->connection->real_escape_string($title);
-        $text = $this->connection->real_escape_string($text);
-
-        //  Создание новой записи в таблице с новостями
-        if ($newsId == 0) {
-            $this->connection->query(
-                "INSERT INTO `news` () VALUES ();"
-            );
-
-            $result = $this->connection->query(
-                "SELECT MAX(id) as id FROM news;"
-            );
-
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $newsId = $row["id"];
-            }
-        }
-
         if (!LocalesStore::isLocaleExists($localeId)) {
             return false;
         }
 
-        $this->connection->query(
-            "INSERT INTO `news_text` (`news_id`, `locale_id`, `title`, `text`) VALUES ('{$newsId}', '{$localeId}', '{$title}', '{$text}');",
-            MYSQLI_ASYNC
-        );
+        //  Создание новой записи в таблице с новостями
+        if ($newsId == 0) {
+
+            $this->news_db->insert()->run();
+            $result = $this->news_db->run("SELECT MAX(id) as id FROM news;");
+
+            if (count($result) > 0) {
+                $newsId = $result[0]["id"];
+            }
+        }
+
+        $this->text_db->insert([
+            'news_id' => $newsId,
+            'locale_id' => $localeId,
+            'title' => $title,
+            'text' => $text
+        ])->run();
 
         return true;
     }
@@ -91,26 +86,22 @@ class NewsStore
         }
 
         $offset = ($page - 1) * 6;
-        $result = $this->connection->query(
-            "SELECT id, UNIX_TIMESTAMP(date) as date FROM `news` ORDER BY `date` DESC LIMIT 6 OFFSET {$offset};"
-        );
-
+        $this->news_db->order("date")->limit(6)->offset($offset)->select();
+        $result = $this->news_db->run();
         $news = [];
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $newsTextResult = $this->connection->query(
-                    "SELECT title, text FROM `news_text` WHERE news_id = {$row["id"]} AND locale_id = {$localeId};"
-                );
-                if ($newsTextResult) {
-                    $newsTextResult = $newsTextResult->fetch_assoc();
-                    if ($newsTextResult["title"]) {
-                        $news[] = new NewsData(
-                            $row["id"],
-                            $newsTextResult["title"],
-                            $newsTextResult["text"],
-                            $row["date"]
-                        );
-                    }
+        if (count($result) > 0) {
+            foreach ($result as $row) {
+                $this->text_db->where("news_id", $row["id"])->and()->where("locale_id", $localeId);
+                $text = $this->text_db->select()->run();
+                if (count($text) > 0)
+                {
+                    $text = $text[0];
+                    $news[] = new NewsData(
+                        $row["id"],
+                        $text["title"],
+                        $text["text"],
+                        $row["date"]
+                    );
                 }
             }
             return $news;

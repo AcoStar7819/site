@@ -1,6 +1,7 @@
 <?php
 
-$cfg = require "config.php";
+require_once "Database/LocalesDatabase.php";
+$cfg = require_once "config.php";
 
 class LocaleData
 {
@@ -36,20 +37,16 @@ class LocalesStore
         }
 
         self::$loaded = true;
-        global $cfg;
 
-        $connection = new mysqli($cfg["DB_HOST"], $cfg["DB_USERNAME"], $cfg["DB_PASSWORD"], "site");
-        $result = $connection->query(
-            "SELECT * FROM `locales`;"
-        );
+        $db = new LocalesDatabase();
+        $result = $db->select()->run();
+        $db->connection->close();
 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
+        if (count($result) > 0) {
+            foreach ($result as $row) {
                 self::$locales[] = new LocaleData($row["id"], $row["name"]);
             }
         }
-
-        $connection->close();
     }
 
     public static function isLocaleExists(int $id): bool
@@ -62,7 +59,7 @@ class LocalesStore
         return false;
     }
 
-    public  static  function getName(int $id) : string
+    public static function getName(int $id): string
     {
         foreach (self::$locales as $loc) {
             if ($loc->getId() == $id) {

@@ -1,6 +1,6 @@
 <?php
 
-include('./classes/NewsStore.php');
+include_once('./classes/NewsStore.php');
 
 $db = new NewsStore();
 $pageId = 1;
@@ -41,6 +41,17 @@ if (isset($_POST["newLocaleId"])) {
     <div class="panel" style="margin-bottom: auto;">
         <h1>Создать новость</h1>
         <span>Язык: <?= LocalesStore::getName($localeId) ?></span>
+
+
+
+        <script>
+            console.log(<?= $localeId ?>);
+            console.log(<?= LocalesStore::getName($localeId) ?>);
+            console.log("end");
+        </script>
+
+
+
         <form action="/news" method="post" target="_self" autocomplete="off" id="defaultForm">
             <label for="title">Заголовок</label>
             <input type="text" name="title" required>

@@ -1,6 +1,6 @@
 <?php
-    include('./classes/Date.php');
-    include('./classes/Text.php');
+    include_once('./classes/Date.php');
+    include_once('./classes/Text.php');
 ?>
 <!DOCTYPE html>
     <head>
