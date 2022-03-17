@@ -1,5 +1,5 @@
 <?php
-$db = new \classes\Controllers\NewsStore();
+$db = new \classes\Storages\NewsStore();
 $pageId = 1;
 if (isset($_COOKIE["pageId"])) {
     $pageId = (int)$_COOKIE["pageId"];
@@ -21,7 +21,7 @@ if (isset($_POST["newLocaleId"])) {
 
 <div class="panel" style="margin-bottom: auto;">
     <h1>Создать новость</h1>
-    <span>Язык: <?= \classes\Controllers\LocalesStore::getName($localeId) ?></span>
+    <span>Язык: <?= \classes\Storages\LocalesStore::getName($localeId) ?></span>
     <form action="../../news" method="post" target="_self" autocomplete="off" id="defaultForm">
         <label for="title">Заголовок</label>
         <input type="text" name="title" required>

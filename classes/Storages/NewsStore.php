@@ -1,6 +1,6 @@
 <?php
 
-namespace classes\Controllers;
+namespace classes\Storages;
 
 class NewsStore
 {
