@@ -61,11 +61,11 @@ if (isset($_POST["newLocaleId"])) {
         <!--    Загрузка новостей   -->
         <?php
         $news = $db->getNews($pageId, $localeId);
-        if ($news) {
-            foreach ($news as $row) {
-                echo "<div class=\"news\"><h2>" . $row->getTitle() . "</h2>" .
-                    $row->getText() .
-                    "<em>Опубликовано " . $row->getDate() . "</em></div>";
+        if ($news and count($news) > 0) {
+            foreach ($news as $collection) {
+                echo "<div class=\"news\"><h2>" . $collection->title . "</h2>" .
+                    $collection->text .
+                    "<em>Опубликовано " . $collection->date . "</em></div>";
             }
         } else {
             echo "<strong>Новостей нет.</strong>";
@@ -73,7 +73,7 @@ if (isset($_POST["newLocaleId"])) {
         ?>
         <!--    Переключение страниц    -->
         <div class="pagesNav">
-            <form action="../../index.php" method="post" target="_self" style="
+            <form action="../../news" method="post" target="_self" style="
                             display: flex;
                             align-items: center;
                             width: 100%;

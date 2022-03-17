@@ -18,7 +18,7 @@ abstract class Model
     private string $limit = "";
     private string $offset = "";
 
-    private string $sql = "";
+    private $sql = "";
 
     public function __construct()
     {
@@ -192,7 +192,7 @@ abstract class Model
             while ($row = $this->sql->fetch_assoc()) {
                 $collection = new \Collection();
                 foreach ($row as $key => $value) {
-                    $collection->$$key = $value;
+                    $collection->$key = $value;
                 }
                 $result[] = $collection;
             }
@@ -209,7 +209,7 @@ abstract class Model
      */
     private function clear(): void
     {
-        $this->where = null;
+        $this->where = "";
         $this->operator = "AND";
         $this->order = "";
         $this->limit = "";

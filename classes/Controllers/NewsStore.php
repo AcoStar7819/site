@@ -21,7 +21,6 @@ class NewsStore
 
         //  Создание новой записи в таблице с новостями
         if ($newsId == 0) {
-
             $this->news_db->insert()->run();
             $result = $this->news_db->run("SELECT MAX(id) as id FROM news;");
 
@@ -40,31 +39,18 @@ class NewsStore
         return true;
     }
 
-    public function getNews(int $page = 1, int $localeId = 1)
-        //  Надо переписать на JOIN
-        //SELECT news.date, news_text.title, news_text.text
-        //FROM news
-        //INNER JOIN news_text ON news.id = news_text.news_id AND news_text.locale_id = 2 ORDER BY news.date DESC LIMIT 6 OFFSET 0;
+    public function getNews(int $page = 1, int $localeId = 1): array|null
     {
         if (!LocalesStore::isLocaleExists($localeId)) {
             return null;
         }
 
         $offset = ($page - 1) * 6;
-        $this->news_db->order("date")->limit(6)->offset($offset)->select();
-        $result = $this->news_db->run();
-        $news = [];
-        if (count($result) > 0) {
-            foreach ($result as $row) {
-                $this->text_db->where("news_id", $row["id"])->and()->where("locale_id", $localeId);
-                $text = $this->text_db->select()->run();
-                if (count($text) > 0)
-                {
-                }
-            }
-            return $news;
-        } else {
-            return null;
-        }
+        $result = $this->news_db->run("
+        SELECT news.date, news_text.title, news_text.text FROM news 
+        INNER JOIN news_text ON news.id = news_text.news_id AND news_text.locale_id = {$localeId} 
+        ORDER BY news.date DESC LIMIT 6 OFFSET {$offset};
+        ");
+        return $result;
     }
 }
