@@ -1,6 +1,6 @@
 <?php
 
-namespace classes\Controllers;
+namespace classes;
 
 /**
  * Бесполезный класс созданный в процессе обучения.

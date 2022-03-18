@@ -24,11 +24,11 @@
                     if (is_numeric($age) && ($age >= 10 && $age <= 100))
                     {
                         #   Демонстрация новосозданного класса "Text"
-                        $name = new \classes\Controllers\Text($name);
+                        $name = new \classes\Text($name);
                         echo "<strong>" . $name->get() . "</strong><br>Длина имени: " . $name->getLength() . "<br>";
 
                         echo "Возраст: " . $age . "<br>";
-                        echo "Дата: " . \classes\Controllers\Date::getFormattedDate($date);
+                        echo "Дата: " . \classes\Date::getFormattedDate($date);
                     }
                 }
             }

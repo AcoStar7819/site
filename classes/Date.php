@@ -1,6 +1,6 @@
 <?php
 
-namespace classes\Controllers;
+namespace classes;
 
 /**
  * Класс для работы с отформатированной датой
