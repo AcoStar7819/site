@@ -20,6 +20,11 @@ class Navigation
             'controller' => 'News'
         ],
 
+        // Авторизация
+        'account' => [
+            'controller' => 'Account'
+        ],
+
         // Тестовая страница
         'test' => [
             'test2' => [

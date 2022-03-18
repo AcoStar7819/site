@@ -11,6 +11,7 @@
         <div class="navigation">
             <a href="/">Основная страница</a>
             <a href="../../news">Новости</a>
+            <a href="../../account">Аккаунт</a>
             <?= $additionalNavigation ?>
         </div>
         <div class="line">

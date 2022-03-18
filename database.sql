@@ -33,3 +33,15 @@ CREATE TABLE IF NOT EXISTS `site`.`news_text` (
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB
 ;
+
+CREATE TABLE IF NOT EXISTS `site`.`users` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`login` VARCHAR(32) NOT NULL DEFAULT '' COLLATE 'utf8_general_ci',
+	`password` VARCHAR(40) NOT NULL DEFAULT '' COLLATE 'utf8_general_ci',
+	`salt` VARCHAR(40) NOT NULL DEFAULT '' COLLATE 'utf8_general_ci',
+	PRIMARY KEY (`id`) USING BTREE,
+	UNIQUE INDEX `login` (`login`) USING BTREE
+)
+COLLATE='utf8mb4_0900_ai_ci'
+ENGINE=InnoDB
+;

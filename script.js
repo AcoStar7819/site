@@ -17,3 +17,5 @@ for (let i = 0; i < checkList.length; i++)
 {
     checkList[i].addEventListener("change", UpdateSubmitButton);
 }
+
+// TODO: Работает только если блок с формой на странице один
