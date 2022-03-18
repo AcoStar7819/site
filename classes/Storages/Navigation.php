@@ -7,11 +7,12 @@ use function \classes\controllers\render;
 
 class Navigation
 {
+    private static string $defaultFunction = 'render';
     private static string $defaultPage = '';
     private static array $pages = [
         // Основная страница
         '' => [
-            'controller' => 'Main'
+            'controller' => 'Main@render'
         ],
 
         // Новости
@@ -67,7 +68,14 @@ class Navigation
             return;
         }
 
+        $function = self::$defaultFunction;
+        if (strpos($target, '@'))
+        {
+            $arr = explode('@', $target);
+            $target = $arr[0];
+            $function = $arr[1];
+        }
         $target = "\classes\Controllers\\" . $target;
-        $target::render();
+        $target::$function();
     }
 }
