@@ -45,7 +45,7 @@ abstract class Model
                 }
 
                 $column = $this->connection->real_escape_string($column);
-                $columns .= "'" . $column . "'";
+                $columns .= "`" . $column . "`";
 
                 $value = $this->connection->real_escape_string($value);
                 $values .= "'" . $value . "'";
@@ -186,9 +186,10 @@ abstract class Model
     {
         $result = [];
         $this->sql .= $sql;
+
         $this->sql = $this->connection->query($this->sql);
 
-        if ($this->sql->num_rows > 0) {
+        if (gettype($this->sql) != 'boolean' && $this->sql->num_rows > 0) {
             while ($row = $this->sql->fetch_assoc()) {
                 $collection = new \Collection();
                 foreach ($row as $key => $value) {

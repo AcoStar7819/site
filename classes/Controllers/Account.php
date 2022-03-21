@@ -8,27 +8,38 @@ class Account
 {
     public static function render()
     {
-        if (isset($_POST["register"]) && isset($_POST["login"]) && isset($_POST["password"])) {
-            $reg = (int)$_POST["register"];
+        $authError = 'false';
+        if (isset($_POST["auth"]) && isset($_POST["login"]) && isset($_POST["password"])) {
+            $auth = (int)$_POST["auth"];
             $login = $_POST["login"];
             $password = $_POST["password"];
-            //  TODO: login register возвращают bool, говорить пользователю результат
-            if ($reg == 0)
+
+            if ($auth == 0)
             {
-                User::login($login, $password);
+                if (!User::login($login, $password))
+                {
+                    $authError = 'true';
+                }
             } else {
-                User::register($login, $password);
+                if (!User::register($login, $password))
+                {
+                    $authError = 'true';
+                }
             }
+        } else if (isset($_POST["logout"])) {
+            User::logout();
         }
 
         $content = '';
         if (User::isLogged()) {
             $content = render('././Templates/account.php', [
-                'login' => 'логин',
-                'id' => 'id'
+                'login' => User::getLogin(),
+                'id' => User::getId()
             ]);
         } else {
-            $content = render('././Templates/auth.php', []);
+            $content = render('././Templates/auth.php', [
+                'authError' => $authError
+            ]);
         }
 
         echo render('././Templates/layout.php', [

@@ -7,10 +7,9 @@ use \classes\Database\Users as Database;
 class User
 {
     static private Database $db;
-    static private string $globalSalt = "Urozp*o|Y0{F3k1xnJsV";
 
-    static private string $login;
-    static private int $id;
+    static private string|null $login;
+    static private int|null $id;
 
     /**
      * Загрузка статичного класса
@@ -42,12 +41,10 @@ class User
         }
 
         // Создание пользователя
-        $salt = \classes\Text::randomString(40);
-        $password = hash('sha256', $salt . $pass . self::$globalSalt);
+        $password = password_hash($pass, PASSWORD_BCRYPT);
         self::$db->insert([
             'login' => $login,
             'password' => $password,
-            'salt' => $salt
         ])->run();
 
         self::finishAuth(
@@ -74,8 +71,7 @@ class User
 
         $arr = self::$db->where('login', $login)->select([
             'id',
-            'password',
-            'salt'
+            'password'
         ])->run();
         if (count($arr) == 0) {
             // Пользователь не существует
@@ -83,9 +79,7 @@ class User
         }
 
         $hash = $arr[0]->password;
-        $salt = $arr[0]->salt;
-        $password = hash('sha256', $salt . $pass . self::$globalSalt);
-        if ($password != $hash) {
+        if (!password_verify($pass, $hash)) {
             // Пароль не подошёл
             return false;
         }
@@ -103,6 +97,7 @@ class User
     {
         self::$login = null;
         self::$id = null;
+        session_destroy();
     }
 
     /**

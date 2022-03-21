@@ -1,21 +1,21 @@
 let checkList = document.querySelectorAll("#defaultForm input:not(input[type=submit])");
 let sumbitButton = document.querySelector("#defaultForm input[type=submit]");
 
-function UpdateSubmitButton() {
+function UpdateSubmitButton(button, checkList) {
     for (let i = 0; i < checkList.length; i++)
     {
         if (checkList[i].value == "")
         {
-            sumbitButton.disabled = true;
+            button.disabled = true;
             return;
         }
     }
-    sumbitButton.disabled = false;
+    button.disabled = false;
 }
 
 for (let i = 0; i < checkList.length; i++)
 {
-    checkList[i].addEventListener("change", UpdateSubmitButton);
+    checkList[i].addEventListener("change", function (){
+        UpdateSubmitButton(sumbitButton, checkList);
+    });
 }
-
-// TODO: Работает только если блок с формой на странице один

@@ -11,7 +11,6 @@ class Users extends \classes\Model
     protected array $columns = [
         "id",
         "login",
-        "password",
-        "salt",
+        "password"
     ];
 }
